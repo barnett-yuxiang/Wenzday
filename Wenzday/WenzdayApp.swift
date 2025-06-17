@@ -16,12 +16,12 @@ struct WenzdayApp: App {
                     .tabItem {
                         Label("Allowance", systemImage: "dollarsign.circle")
                     }
-                
+
                 ChartsView()
                     .tabItem {
                         Label("Charts", systemImage: "chart.bar")
                     }
-                
+
                 LoreneView()
                     .tabItem {
                         Label("Lorene", systemImage: "person.crop.circle")
@@ -34,7 +34,7 @@ struct WenzdayApp: App {
                 appearance.configureWithOpaqueBackground()
                 appearance.backgroundColor = UIColor.systemBackground
                 appearance.shadowColor = UIColor.systemGray4
-                
+
                 UITabBar.appearance().standardAppearance = appearance
                 UITabBar.appearance().scrollEdgeAppearance = appearance
             }

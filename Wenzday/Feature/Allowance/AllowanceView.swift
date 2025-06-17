@@ -18,18 +18,18 @@ struct AllowanceView: View {
                     endPoint: .bottomTrailing
                 )
                 .ignoresSafeArea()
-                
+
                 VStack(spacing: 24) {
                     // Header card
                     VStack(spacing: 16) {
                         Image(systemName: "dollarsign.circle.fill")
                             .font(.system(size: 50))
                             .foregroundStyle(.green)
-                        
+
                         Text("Allowance Management")
                             .font(.title2)
                             .fontWeight(.semibold)
-                        
+
                         Text("Track and manage your allowances")
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
@@ -40,14 +40,14 @@ struct AllowanceView: View {
                             .fill(.regularMaterial)
                             .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                     )
-                    
+
                     Spacer()
-                    
+
                     // Feature placeholder
                     Text("Coming Soon...")
                         .font(.caption)
                         .foregroundStyle(.tertiary)
-                    
+
                     Spacer()
                 }
                 .padding(.horizontal, 20)
