@@ -1,0 +1,8 @@
+.qodo/
+.DS_Store
+
+Wenzday.xcodeproj/
+
+# 项目级编译产物
+build/
+DerivedData/
