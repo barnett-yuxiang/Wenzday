@@ -106,10 +106,10 @@ struct LoreneView: View {
 
     // MARK: - Education History Section
     private var educationSection: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 14) {
                         HStack {
                 Text("Education History")
-                    .font(.headline)
+                    .font(.subheadline)
                     .fontWeight(.semibold)
 
                 Spacer()
@@ -119,28 +119,41 @@ struct LoreneView: View {
                     showingEducationSheet = true
                 }
                 .foregroundStyle(.pink)
+                .font(.subheadline)
             }
 
             if profileManager.profileData.educationHistory.isEmpty {
                 Text("No education history")
+                    .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .padding(.vertical, 20)
-            } else {
-                ForEach(profileManager.profileData.educationHistory.sorted(by: { $0.startDate > $1.startDate })) { education in
-                    EducationRowView(
-                        education: education,
-                        onEdit: {
-                            editingEducation = education
-                            showingEducationSheet = true
-                        },
-                        onDelete: {
-                            profileManager.deleteEducationEntry(education)
+                        } else {
+                VStack(alignment: .leading, spacing: 0) {
+                    ForEach(Array(profileManager.profileData.educationHistory.sorted(by: { $0.startDate > $1.startDate }).enumerated()), id: \.element.id) { index, education in
+                        EducationRowView(education: education)
+                            .swipeActions(edge: .trailing) {
+                                Button("Delete") {
+                                    profileManager.deleteEducationEntry(education)
+                                }
+                                .tint(.red)
+
+                                Button("Edit") {
+                                    editingEducation = education
+                                    showingEducationSheet = true
+                                }
+                                .tint(.blue)
+                            }
+
+                        if index < profileManager.profileData.educationHistory.count - 1 {
+                            Divider()
+                                .background(Color.gray.opacity(0.3))
                         }
-                    )
+                    }
                 }
             }
         }
-        .padding(20)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 16)
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .fill(.regularMaterial)
@@ -192,43 +205,33 @@ struct InfoRow: View {
 // MARK: - Education Row View
 struct EducationRowView: View {
     let education: EducationEntry
-    let onEdit: () -> Void
-    let onDelete: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 6) {
+            // Top: Time range
+            Text(education.dateRangeString)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .truncationMode(.tail)
+
+            // Bottom: Institution (left) and Level (right)
             HStack {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(education.dateRangeString)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-
-                    Text(education.level)
-                        .fontWeight(.medium)
-
-                    if !education.institution.isEmpty {
-                        Text(education.institution)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                }
+                Text(education.institution.isEmpty ? "Not Set" : education.institution)
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
 
                 Spacer()
 
-                                HStack(spacing: 16) {
-                    Button("Edit") {
-                        onEdit()
-                    }
-                    .foregroundStyle(.blue)
-
-                    Button("Delete") {
-                        onDelete()
-                    }
-                    .foregroundStyle(.red)
-                }
-                .font(.caption)
+                Text(education.level)
+                    .font(.subheadline)
+                    .foregroundStyle(.primary)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
             }
         }
-        .padding(.vertical, 8)
+        .padding(.vertical, 12)
     }
 }
