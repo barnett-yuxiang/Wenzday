@@ -39,7 +39,7 @@ struct LoreneView: View {
                             // 3. Education History Section
                             educationSection
                         }
-                        .padding(.horizontal, 20)
+                        .padding(.horizontal, 12)
                         .padding(.bottom, 20)
                     }
                 }
@@ -70,10 +70,10 @@ struct LoreneView: View {
 
     // MARK: - Basic Information Section
     private var basicInfoSection: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 14) {
                         HStack {
                 Text("Basic Information")
-                    .font(.headline)
+                    .font(.subheadline)
                     .fontWeight(.semibold)
 
                 Spacer()
@@ -82,9 +82,10 @@ struct LoreneView: View {
                     showingEditSheet = true
                 }
                 .foregroundStyle(.pink)
+                .font(.subheadline)
             }
 
-                        VStack(alignment: .leading, spacing: 12) {
+                        VStack(alignment: .leading, spacing: 10) {
                 InfoRow(label: "Chinese Name", value: profileManager.profileData.chineseName.isEmpty ? "Not Set" : profileManager.profileData.chineseName)
                 InfoRow(label: "English Name", value: profileManager.profileData.englishName.isEmpty ? "Not Set" : profileManager.profileData.englishName)
 
@@ -94,7 +95,8 @@ struct LoreneView: View {
                 InfoRow(label: "Email", value: profileManager.profileData.email.isEmpty ? "Not Set" : profileManager.profileData.email)
             }
         }
-        .padding(20)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 16)
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .fill(.regularMaterial)
@@ -157,7 +159,7 @@ struct LoreneView: View {
 
     private func formatAge(_ age: Int?) -> String {
         guard let age = age else { return "Not Set" }
-        return "\(age) years old"
+        return "\(age)"
     }
 }
 
@@ -169,13 +171,20 @@ struct InfoRow: View {
     var body: some View {
         HStack {
             Text(label)
+                .font(.subheadline)
                 .foregroundStyle(.secondary)
-                .frame(width: 80, alignment: .leading)
-
-            Text(value)
-                .fontWeight(.medium)
+                .frame(width: 130, alignment: .leading)
+                .lineLimit(1)
+                .truncationMode(.tail)
 
             Spacer()
+
+            Text(value)
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .multilineTextAlignment(.trailing)
+                .lineLimit(1)
+                .truncationMode(.tail)
         }
     }
 }
