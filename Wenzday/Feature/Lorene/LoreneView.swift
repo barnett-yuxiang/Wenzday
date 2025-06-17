@@ -61,9 +61,21 @@ struct LoreneView: View {
     // MARK: - Avatar Section
     private var avatarSection: some View {
         VStack(spacing: 12) {
-            Image(systemName: "person.crop.circle.fill")
-                .font(.system(size: 80))
-                .foregroundStyle(.pink)
+            if let _ = UIImage(named: "avatar_lorene") {
+                Image("avatar_lorene")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 80, height: 80)
+                    .clipShape(Circle())
+                    .overlay(
+                        Circle()
+                            .stroke(Color.white, lineWidth: 2)
+                    )
+            } else {
+                Image(systemName: "person.crop.circle.fill")
+                    .font(.system(size: 80))
+                    .foregroundStyle(.pink)
+            }
         }
         .padding(.top, 20)
     }
