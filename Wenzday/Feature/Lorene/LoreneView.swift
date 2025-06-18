@@ -53,10 +53,17 @@ struct LoreneView: View {
             ProfileEditView(profileManager: profileManager)
         }
         .sheet(isPresented: $showingEducationSheet) {
-            EducationEditView(
+            let capturedValue = editingEducation
+            print("=== Sheet creation - captured value: \(capturedValue?.institution ?? "nil")")
+
+            return EducationEditView(
                 profileManager: profileManager,
-                editingEntry: editingEducation
+                editingEntry: capturedValue
             )
+            .onAppear {
+                print("=== Sheet opened ===")
+                print("editingEducation: \(editingEducation?.institution ?? "nil")")
+            }
         }
     }
 
@@ -150,8 +157,7 @@ struct LoreneView: View {
                 Spacer()
 
                 Button("Add") {
-                    editingEducation = nil
-                    showingEducationSheet = true
+                    handleAddEducation()
                 }
                 .foregroundStyle(.pink)
                 .font(.subheadline)
@@ -163,38 +169,44 @@ struct LoreneView: View {
                     .foregroundStyle(.secondary)
                     .padding(.vertical, 20)
             } else {
-                VStack(alignment: .leading, spacing: 0) {
-                    ForEach(
-                        Array(
-                            profileManager.profileData.educationHistory.sorted(
-                                by: { $0.startDate > $1.startDate })
-                                .enumerated()
-                        ),
-                        id: \.element.id
-                    ) { index, education in
-                        EducationRowView(education: education)
-                            .swipeActions(edge: .trailing) {
-                                Button("Delete") {
-                                    profileManager.deleteEducationEntry(
-                                        education
-                                    )
+                // Use List instead of LazyVStack for better swipe actions support
+                List {
+                    ForEach(Array(profileManager.profileData.educationHistory.sorted(by: { $0.startDate > $1.startDate }).enumerated()), id: \.element.id) { index, education in
+                        VStack(spacing: 0) {
+                            EducationRowView(education: education)
+                                .onTapGesture {
+                                    print("Tapped education: \(education.institution)")
                                 }
-                                .tint(.red)
+                                .swipeActions(edge: .trailing) {
+                                    Button("Delete") {
+                                        print("Delete tapped for: \(education.institution)")
+                                        profileManager.deleteEducationEntry(education)
+                                    }
+                                    .tint(.red)
 
-                                Button("Edit") {
-                                    editingEducation = education
-                                    showingEducationSheet = true
+                                    Button("Edit") {
+                                        print("Edit tapped for: \(education.institution)")
+                                        handleEditEducation(education)
+                                    }
+                                    .tint(.blue)
                                 }
-                                .tint(.blue)
+
+                            // Add divider between items (except last)
+                            if index < profileManager.profileData.educationHistory.count - 1 {
+                                Divider()
+                                    .background(Color.gray.opacity(0.3))
                             }
-
-                        if index < profileManager.profileData.educationHistory
-                            .count - 1
-                        {
-                            Divider()
-                                .background(Color.gray.opacity(0.3))
                         }
+                        .listRowSeparator(.hidden) // Hide default separators to use custom ones
+                        .listRowBackground(Color.clear) // Transparent background
+                        .listRowInsets(EdgeInsets()) // Remove default List row insets
                     }
+                }
+                .listStyle(.plain) // Remove default List styling
+                .frame(height: CGFloat(profileManager.profileData.educationHistory.count * 80)) // Fixed height
+                .scrollDisabled(true) // Disable List scrolling since we're in ScrollView
+                .onAppear {
+                    print("Education history loaded: \(profileManager.profileData.educationHistory.count) items")
                 }
             }
         }
@@ -219,6 +231,31 @@ struct LoreneView: View {
     private func formatAge(_ age: Int?) -> String {
         guard let age = age else { return "Not Set" }
         return "\(age)"
+    }
+
+    private func handleEditEducation(_ education: EducationEntry) {
+        print("=== handleEditEducation called ===")
+        print("Education to edit: \(education.institution)")
+
+        // Set the editing state and show sheet with the specific education
+        editingEducation = education
+        print("editingEducation set to: \(editingEducation?.institution ?? "nil")")
+
+        // Show the sheet immediately - the value is already set
+        showingEducationSheet = true
+        print("showingEducationSheet set to true")
+    }
+
+    private func handleAddEducation() {
+        print("=== handleAddEducation called ===")
+
+        // Clear the editing state for new entry
+        editingEducation = nil
+        print("editingEducation set to nil for new entry")
+
+        // Show the sheet immediately
+        showingEducationSheet = true
+        print("showingEducationSheet set to true")
     }
 }
 
@@ -281,6 +318,8 @@ struct EducationRowView: View {
                     .truncationMode(.tail)
             }
         }
-        .padding(.vertical, 12)
+        .padding(.vertical, 8)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
     }
 }

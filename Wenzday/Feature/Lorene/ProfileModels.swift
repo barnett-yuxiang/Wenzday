@@ -42,7 +42,7 @@ enum Gender: String, Codable, CaseIterable {
 }
 
 // MARK: - Education Entry Model
-struct EducationEntry: Codable, Identifiable {
+struct EducationEntry: Codable, Identifiable, Equatable {
     let id: UUID
     var startDate: Date
     var endDate: Date?

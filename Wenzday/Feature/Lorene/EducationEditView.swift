@@ -104,10 +104,24 @@ struct EducationEditView: View {
         .onAppear {
             loadCurrentData()
         }
+        .onChange(of: editingEntry) { oldValue, newValue in
+            print("=== editingEntry changed ===")
+            print("oldValue: \(oldValue?.institution ?? "nil")")
+            print("newValue: \(newValue?.institution ?? "nil")")
+
+            // Add a small delay to ensure state consistency
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                loadCurrentData()
+            }
+        }
     }
 
     private func loadCurrentData() {
+        print("=== EducationEditView loadCurrentData ===")
+        print("editingEntry: \(editingEntry?.institution ?? "nil")")
+
         if let entry = editingEntry {
+            print("Loading existing entry: \(entry.institution), level: \(entry.level)")
             startDate = entry.startDate
 
             if let endDate = entry.endDate {
@@ -119,7 +133,10 @@ struct EducationEditView: View {
 
             institution = entry.institution
             level = entry.level
+
+            print("Loaded values - institution: '\(institution)', level: '\(level)'")
         } else {
+            print("Creating new entry")
             // For new entries, set default level to first option
             level = commonLevels.first ?? ""
         }
