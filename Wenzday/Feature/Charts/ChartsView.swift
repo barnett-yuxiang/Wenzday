@@ -13,7 +13,9 @@ struct ChartsView: View {
             ZStack {
                 // Background gradient
                 LinearGradient(
-                    colors: [Color.blue.opacity(0.1), Color.purple.opacity(0.2)],
+                    colors: [
+                        Color.blue.opacity(0.1), Color.purple.opacity(0.2),
+                    ],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
@@ -38,7 +40,12 @@ struct ChartsView: View {
                     .background(
                         RoundedRectangle(cornerRadius: 16)
                             .fill(.regularMaterial)
-                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                            .shadow(
+                                color: .black.opacity(0.1),
+                                radius: 8,
+                                x: 0,
+                                y: 4
+                            )
                     )
 
                     Spacer()

@@ -22,11 +22,13 @@ struct EducationEditView: View {
     private let commonLevels = [
         "Nursery",
         "Kindergarten",
-        "Elementary Grade 1", "Elementary Grade 2", "Elementary Grade 3", "Elementary Grade 4", "Elementary Grade 5", "Elementary Grade 6",
-        "Middle School Grade 7", "Middle School Grade 8", "Middle School Grade 9",
+        "Elementary Grade 1", "Elementary Grade 2", "Elementary Grade 3",
+        "Elementary Grade 4", "Elementary Grade 5", "Elementary Grade 6",
+        "Middle School Grade 7", "Middle School Grade 8",
+        "Middle School Grade 9",
         "High School Grade 10", "High School Grade 11", "High School Grade 12",
         "Bachelor's Degree", "Master's Degree", "Doctoral Degree",
-        "Other"
+        "Other",
     ]
 
     private var isEditing: Bool {
@@ -39,7 +41,7 @@ struct EducationEditView: View {
 
     var body: some View {
         NavigationView {
-                        Form {
+            Form {
                 Section(header: Text("Time Information")) {
                     DatePicker(
                         "Start Date",
@@ -67,8 +69,11 @@ struct EducationEditView: View {
                 Section(header: Text("Education Information")) {
                     HStack {
                         Text("School")
-                        TextField("e.g., Harvard University", text: $institution)
-                            .multilineTextAlignment(.trailing)
+                        TextField(
+                            "e.g., Harvard University",
+                            text: $institution
+                        )
+                        .multilineTextAlignment(.trailing)
                     }
 
                     Picker("Level", selection: $level) {

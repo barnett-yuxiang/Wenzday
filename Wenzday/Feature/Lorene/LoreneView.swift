@@ -18,7 +18,9 @@ struct LoreneView: View {
             ZStack {
                 // Background gradient
                 LinearGradient(
-                    colors: [Color.pink.opacity(0.1), Color.orange.opacity(0.2)],
+                    colors: [
+                        Color.pink.opacity(0.1), Color.orange.opacity(0.2),
+                    ],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
@@ -61,7 +63,7 @@ struct LoreneView: View {
     // MARK: - Avatar Section
     private var avatarSection: some View {
         VStack(spacing: 12) {
-            if let _ = UIImage(named: "avatar_lorene") {
+            if UIImage(named: "avatar_lorene") != nil {
                 Image("avatar_lorene")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -83,7 +85,7 @@ struct LoreneView: View {
     // MARK: - Basic Information Section
     private var basicInfoSection: some View {
         VStack(alignment: .leading, spacing: 14) {
-                        HStack {
+            HStack {
                 Text("Basic Information")
                     .font(.subheadline)
                     .fontWeight(.semibold)
@@ -97,14 +99,35 @@ struct LoreneView: View {
                 .font(.subheadline)
             }
 
-                        VStack(alignment: .leading, spacing: 10) {
-                InfoRow(label: "Chinese Name", value: profileManager.profileData.chineseName.isEmpty ? "Not Set" : profileManager.profileData.chineseName)
-                InfoRow(label: "English Name", value: profileManager.profileData.englishName.isEmpty ? "Not Set" : profileManager.profileData.englishName)
+            VStack(alignment: .leading, spacing: 10) {
+                InfoRow(
+                    label: "Chinese Name",
+                    value: profileManager.profileData.chineseName.isEmpty
+                        ? "Not Set" : profileManager.profileData.chineseName
+                )
+                InfoRow(
+                    label: "English Name",
+                    value: profileManager.profileData.englishName.isEmpty
+                        ? "Not Set" : profileManager.profileData.englishName
+                )
 
-                InfoRow(label: "Birth Date", value: formatBirthDate(profileManager.profileData.birthDate))
-                InfoRow(label: "Age", value: formatAge(profileManager.profileData.age))
-                InfoRow(label: "Gender", value: profileManager.profileData.gender.displayName)
-                InfoRow(label: "Email", value: profileManager.profileData.email.isEmpty ? "Not Set" : profileManager.profileData.email)
+                InfoRow(
+                    label: "Birth Date",
+                    value: formatBirthDate(profileManager.profileData.birthDate)
+                )
+                InfoRow(
+                    label: "Age",
+                    value: formatAge(profileManager.profileData.age)
+                )
+                InfoRow(
+                    label: "Gender",
+                    value: profileManager.profileData.gender.displayName
+                )
+                InfoRow(
+                    label: "Email",
+                    value: profileManager.profileData.email.isEmpty
+                        ? "Not Set" : profileManager.profileData.email
+                )
             }
         }
         .padding(.horizontal, 16)
@@ -119,7 +142,7 @@ struct LoreneView: View {
     // MARK: - Education History Section
     private var educationSection: some View {
         VStack(alignment: .leading, spacing: 14) {
-                        HStack {
+            HStack {
                 Text("Education History")
                     .font(.subheadline)
                     .fontWeight(.semibold)
@@ -139,13 +162,22 @@ struct LoreneView: View {
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .padding(.vertical, 20)
-                        } else {
+            } else {
                 VStack(alignment: .leading, spacing: 0) {
-                    ForEach(Array(profileManager.profileData.educationHistory.sorted(by: { $0.startDate > $1.startDate }).enumerated()), id: \.element.id) { index, education in
+                    ForEach(
+                        Array(
+                            profileManager.profileData.educationHistory.sorted(
+                                by: { $0.startDate > $1.startDate })
+                                .enumerated()
+                        ),
+                        id: \.element.id
+                    ) { index, education in
                         EducationRowView(education: education)
                             .swipeActions(edge: .trailing) {
                                 Button("Delete") {
-                                    profileManager.deleteEducationEntry(education)
+                                    profileManager.deleteEducationEntry(
+                                        education
+                                    )
                                 }
                                 .tint(.red)
 
@@ -156,7 +188,9 @@ struct LoreneView: View {
                                 .tint(.blue)
                             }
 
-                        if index < profileManager.profileData.educationHistory.count - 1 {
+                        if index < profileManager.profileData.educationHistory
+                            .count - 1
+                        {
                             Divider()
                                 .background(Color.gray.opacity(0.3))
                         }
@@ -174,7 +208,7 @@ struct LoreneView: View {
     }
 
     // MARK: - Helper Methods
-        private func formatBirthDate(_ date: Date?) -> String {
+    private func formatBirthDate(_ date: Date?) -> String {
         guard let date = date else { return "Not Set" }
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -229,11 +263,14 @@ struct EducationRowView: View {
 
             // Bottom: Institution (left) and Level (right)
             HStack {
-                Text(education.institution.isEmpty ? "Not Set" : education.institution)
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                    .lineLimit(1)
-                    .truncationMode(.tail)
+                Text(
+                    education.institution.isEmpty
+                        ? "Not Set" : education.institution
+                )
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .lineLimit(1)
+                .truncationMode(.tail)
 
                 Spacer()
 

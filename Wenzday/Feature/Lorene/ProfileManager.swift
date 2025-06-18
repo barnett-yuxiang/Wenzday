@@ -21,7 +21,8 @@ class ProfileManager: ObservableObject {
 
     // MARK: - File Path Management
     private var documentsDirectory: URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            .first!
     }
 
     private var documentsFileURL: URL {
@@ -41,7 +42,8 @@ class ProfileManager: ObservableObject {
                 var data: Data
 
                 // First try to load from Documents directory (user's modified data)
-                if FileManager.default.fileExists(atPath: documentsFileURL.path) {
+                if FileManager.default.fileExists(atPath: documentsFileURL.path)
+                {
                     data = try Data(contentsOf: documentsFileURL)
                     print("Loading profile data from Documents directory")
                 }
@@ -52,7 +54,13 @@ class ProfileManager: ObservableObject {
                 }
                 // If neither exists, use default empty data
                 else {
-                    throw NSError(domain: "ProfileManager", code: 1, userInfo: [NSLocalizedDescriptionKey: "No profile data found"])
+                    throw NSError(
+                        domain: "ProfileManager",
+                        code: 1,
+                        userInfo: [
+                            NSLocalizedDescriptionKey: "No profile data found"
+                        ]
+                    )
                 }
 
                 let decoder = JSONDecoder()
@@ -60,10 +68,13 @@ class ProfileManager: ObservableObject {
 
                 // Debug: Print the raw JSON string
                 if let jsonString = String(data: data, encoding: .utf8) {
-                    print("Raw JSON data: \(jsonString.prefix(200))...") // Print first 200 chars
+                    print("Raw JSON data: \(jsonString.prefix(200))...")  // Print first 200 chars
                 }
 
-                let loadedProfile = try decoder.decode(ProfileData.self, from: data)
+                let loadedProfile = try decoder.decode(
+                    ProfileData.self,
+                    from: data
+                )
 
                 await MainActor.run {
                     self.profileData = loadedProfile
@@ -71,7 +82,9 @@ class ProfileManager: ObservableObject {
                 }
             } catch {
                 // If all fails, use default empty data
-                print("Failed to load profile data: \(error.localizedDescription)")
+                print(
+                    "Failed to load profile data: \(error.localizedDescription)"
+                )
                 if let decodingError = error as? DecodingError {
                     print("Decoding error details: \(decodingError)")
                 }
@@ -96,7 +109,9 @@ class ProfileManager: ObservableObject {
 
                 print("Profile data saved successfully to Documents directory")
             } catch {
-                print("Failed to save profile data: \(error.localizedDescription)")
+                print(
+                    "Failed to save profile data: \(error.localizedDescription)"
+                )
             }
         }
     }
@@ -135,7 +150,9 @@ class ProfileManager: ObservableObject {
     }
 
     func updateEducationEntry(_ entry: EducationEntry) {
-        if let index = profileData.educationHistory.firstIndex(where: { $0.id == entry.id }) {
+        if let index = profileData.educationHistory.firstIndex(where: {
+            $0.id == entry.id
+        }) {
             profileData.educationHistory[index] = entry
             saveProfileData()
         }

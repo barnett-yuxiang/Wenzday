@@ -21,7 +21,11 @@ struct ProfileData: Codable {
         guard let birthDate = birthDate else { return nil }
         let calendar = Calendar.current
         let now = Date()
-        let ageComponents = calendar.dateComponents([.year], from: birthDate, to: now)
+        let ageComponents = calendar.dateComponents(
+            [.year],
+            from: birthDate,
+            to: now
+        )
         return ageComponents.year
     }
 }
@@ -43,9 +47,15 @@ struct EducationEntry: Codable, Identifiable {
     var startDate: Date
     var endDate: Date?
     var institution: String
-    var level: String // e.g., Elementary Grade 1, Middle School, High School, University
+    var level: String  // e.g., Elementary Grade 1, Middle School, High School, University
 
-    init(id: UUID = UUID(), startDate: Date, endDate: Date? = nil, institution: String, level: String) {
+    init(
+        id: UUID = UUID(),
+        startDate: Date,
+        endDate: Date? = nil,
+        institution: String,
+        level: String
+    ) {
         self.id = id
         self.startDate = startDate
         self.endDate = endDate

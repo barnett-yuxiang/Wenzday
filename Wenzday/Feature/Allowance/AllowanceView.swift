@@ -13,7 +13,9 @@ struct AllowanceView: View {
             ZStack {
                 // Background gradient
                 LinearGradient(
-                    colors: [Color.green.opacity(0.1), Color.mint.opacity(0.2)],
+                    colors: [
+                        Color.green.opacity(0.1), Color.mint.opacity(0.2),
+                    ],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
@@ -38,7 +40,12 @@ struct AllowanceView: View {
                     .background(
                         RoundedRectangle(cornerRadius: 16)
                             .fill(.regularMaterial)
-                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                            .shadow(
+                                color: .black.opacity(0.1),
+                                radius: 8,
+                                x: 0,
+                                y: 4
+                            )
                     )
 
                     Spacer()

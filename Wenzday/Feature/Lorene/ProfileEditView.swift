@@ -20,7 +20,7 @@ struct ProfileEditView: View {
 
     var body: some View {
         NavigationView {
-                        Form {
+            Form {
                 Section(header: Text("Basic Information")) {
                     // Chinese Name
                     HStack {
