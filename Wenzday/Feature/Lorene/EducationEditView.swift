@@ -121,7 +121,9 @@ struct EducationEditView: View {
         print("editingEntry: \(editingEntry?.institution ?? "nil")")
 
         if let entry = editingEntry {
-            print("Loading existing entry: \(entry.institution), level: \(entry.level)")
+            print(
+                "Loading existing entry: \(entry.institution), level: \(entry.level)"
+            )
             startDate = entry.startDate
 
             if let endDate = entry.endDate {
@@ -134,7 +136,9 @@ struct EducationEditView: View {
             institution = entry.institution
             level = entry.level
 
-            print("Loaded values - institution: '\(institution)', level: '\(level)'")
+            print(
+                "Loaded values - institution: '\(institution)', level: '\(level)'"
+            )
         } else {
             print("Creating new entry")
             // For new entries, set default level to first option

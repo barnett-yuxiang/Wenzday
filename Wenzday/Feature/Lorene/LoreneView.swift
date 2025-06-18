@@ -54,7 +54,9 @@ struct LoreneView: View {
         }
         .sheet(isPresented: $showingEducationSheet) {
             let capturedValue = editingEducation
-            print("=== Sheet creation - captured value: \(capturedValue?.institution ?? "nil")")
+            print(
+                "=== Sheet creation - captured value: \(capturedValue?.institution ?? "nil")"
+            )
 
             return EducationEditView(
                 profileManager: profileManager,
@@ -62,7 +64,9 @@ struct LoreneView: View {
             )
             .onAppear {
                 print("=== Sheet opened ===")
-                print("editingEducation: \(editingEducation?.institution ?? "nil")")
+                print(
+                    "editingEducation: \(editingEducation?.institution ?? "nil")"
+                )
             }
         }
     }
@@ -171,42 +175,65 @@ struct LoreneView: View {
             } else {
                 // Use List instead of LazyVStack for better swipe actions support
                 List {
-                    ForEach(Array(profileManager.profileData.educationHistory.sorted(by: { $0.startDate > $1.startDate }).enumerated()), id: \.element.id) { index, education in
+                    ForEach(
+                        Array(
+                            profileManager.profileData.educationHistory.sorted(
+                                by: { $0.startDate > $1.startDate })
+                                .enumerated()
+                        ),
+                        id: \.element.id
+                    ) { index, education in
                         VStack(spacing: 0) {
                             EducationRowView(education: education)
                                 .onTapGesture {
-                                    print("Tapped education: \(education.institution)")
+                                    print(
+                                        "Tapped education: \(education.institution)"
+                                    )
                                 }
                                 .swipeActions(edge: .trailing) {
                                     Button("Delete") {
-                                        print("Delete tapped for: \(education.institution)")
-                                        profileManager.deleteEducationEntry(education)
+                                        print(
+                                            "Delete tapped for: \(education.institution)"
+                                        )
+                                        profileManager.deleteEducationEntry(
+                                            education
+                                        )
                                     }
                                     .tint(.red)
 
                                     Button("Edit") {
-                                        print("Edit tapped for: \(education.institution)")
+                                        print(
+                                            "Edit tapped for: \(education.institution)"
+                                        )
                                         handleEditEducation(education)
                                     }
                                     .tint(.blue)
                                 }
 
                             // Add divider between items (except last)
-                            if index < profileManager.profileData.educationHistory.count - 1 {
+                            if index < profileManager.profileData
+                                .educationHistory.count - 1
+                            {
                                 Divider()
                                     .background(Color.gray.opacity(0.3))
                             }
                         }
-                        .listRowSeparator(.hidden) // Hide default separators to use custom ones
-                        .listRowBackground(Color.clear) // Transparent background
-                        .listRowInsets(EdgeInsets()) // Remove default List row insets
+                        .listRowSeparator(.hidden)  // Hide default separators to use custom ones
+                        .listRowBackground(Color.clear)  // Transparent background
+                        .listRowInsets(EdgeInsets())  // Remove default List row insets
                     }
                 }
-                .listStyle(.plain) // Remove default List styling
-                .frame(height: CGFloat(profileManager.profileData.educationHistory.count * 80)) // Fixed height
-                .scrollDisabled(true) // Disable List scrolling since we're in ScrollView
+                .listStyle(.plain)  // Remove default List styling
+                .frame(
+                    height: CGFloat(
+                        profileManager.profileData.educationHistory.count * 80
+                    )
+                )  // Fixed height
+                .scrollDisabled(true)  // Disable List scrolling since we're in ScrollView
                 .onAppear {
-                    print("Education history loaded: \(profileManager.profileData.educationHistory.count) items")
+                    print(
+                        "Education history loaded: \(profileManager.profileData.educationHistory.count) items"
+                    )
                 }
             }
         }
@@ -239,7 +266,9 @@ struct LoreneView: View {
 
         // Set the editing state and show sheet with the specific education
         editingEducation = education
-        print("editingEducation set to: \(editingEducation?.institution ?? "nil")")
+        print(
+            "editingEducation set to: \(editingEducation?.institution ?? "nil")"
+        )
 
         // Show the sheet immediately - the value is already set
         showingEducationSheet = true
