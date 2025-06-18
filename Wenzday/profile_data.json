@@ -1,0 +1,23 @@
+{
+  "chineseName": "于晴",
+  "englishName": "Lorene",
+  "birthDate": "2019-05-09T00:00:00Z",
+  "gender": "Female",
+  "email": "Lorene.yuqing@gmail.com",
+  "educationHistory": [
+    {
+      "id": "12345678-1234-1234-1234-123456789ABC",
+      "startDate": "2022-02-28T00:00:00Z",
+      "endDate": "2022-08-31T00:00:00Z",
+      "institution": "新爱婴",
+      "level": "Nursery"
+    },
+    {
+      "id": "87654321-4321-4321-4321-CBA987654321",
+      "startDate": "2023-09-01T00:00:00Z",
+      "endDate": "2025-07-30T00:00:00Z",
+      "institution": "加拿达",
+      "level": "Kindergarten"
+    }
+  ]
+}
