@@ -2,7 +2,7 @@
 //  ProfileManager.swift
 //  Wenzday
 //
-//  Created by Assistant on 2025/6/17.
+//  Created by yuxiang on 2025/6/17.
 //
 
 import Foundation
